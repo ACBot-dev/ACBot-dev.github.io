@@ -15,9 +15,7 @@
 
         function generateData() {
             const currentTime = Date.now();
-            if (currentTime - lastGenerated < 20000) { // 如果上次生成时间距离现在小于 20 秒，则不生成
-                return;
-            }
+
 
             const timestamp = new Date().toISOString();
             const identifier = "ACBot";
