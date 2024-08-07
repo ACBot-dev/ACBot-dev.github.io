@@ -20,13 +20,13 @@
             const timestamp = new Date().toISOString();
             const identifier = "ACBot";
             const garbage = Math.random().toString(36).substring(2);
-            const data = `${timestamp}+1000_${identifier}_${garbage}`;
+            const data = `${timestamp}_${identifier}_${garbage}`;
             const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
 
  
             document.getElementById('data').innerText = md5Hash;
 
-    
+            document.getElementById('raw-data').innerText = data;
 
             lastGenerated = currentTime;
             window.generatedData = { timestamp, identifier, garbage }; 
