@@ -8,22 +8,37 @@
 </head>
 <body>
     <h1>Verify MD5</h1>
-    <button onclick="generateData()">Generate Data</button>
     <p id="data"></p>
 
     <script>
+        let lastGenerated = 0; // 记录上次生成时间的时间戳
+
         function generateData() {
+            const currentTime = Date.now();
+            if (currentTime - lastGenerated < 20000) { // 如果上次生成时间距离现在小于 20 秒，则不生成
+                return;
+            }
+
             const timestamp = new Date().toISOString();
             const identifier = "ACBot";
             const garbage = Math.random().toString(36).substring(2);
             const data = `${timestamp}:${identifier}:${garbage}`;
             const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
-            
+
             // Display the data only
             document.getElementById('data').innerText = `Data: ${data}`;
 
-            // Optionally: Send data and md5Hash to a server or store locally
+            // Update last generated time
+            lastGenerated = currentTime;
+
+            console.log(`Generated Data: ${data}`);  // 添加调试信息
         }
+
+        // Set an interval to generate data every 20 seconds
+        setInterval(generateData, 20000);
+
+        // Generate data immediately on page load
+        generateData();
     </script>
 </body>
 </html>
