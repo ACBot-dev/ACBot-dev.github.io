@@ -18,9 +18,9 @@
         function generateData() {
             const currentTime = Date.now();
             const timestamp = new Date().toISOString();
-            const identifier = "ACBot1";
+            const identifier = "ACBot";
             const garbage = Math.random().toString(36).substring(2);
-            const data = `${timestamp}_${identifier}_${garbage}`;
+            const data = `${timestamp}+1000_${identifier}_${garbage}`;
             const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
 
  
