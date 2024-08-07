@@ -23,8 +23,6 @@
             const identifier = "ACBot";
             const garbage = Math.random().toString(36).substring(2);
             const data = `${timestamp}:${identifier}:${garbage}`;
-            const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
-
             // Display the data only
             document.getElementById('data').innerText = `Data: ${data}`;
 
