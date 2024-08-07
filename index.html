@@ -23,13 +23,16 @@
             const identifier = "ACBot";
             const garbage = Math.random().toString(36).substring(2);
             const data = `${timestamp}:${identifier}:${garbage}`;
-            // Display the data only
-            document.getElementById('data').innerText = `Data: ${data}`;
+            const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
+            
+            // Display the MD5 hash only
+            document.getElementById('data').innerText = md5Hash;
 
             // Update last generated time
             lastGenerated = currentTime;
 
             console.log(`Generated Data: ${data}`);  // 添加调试信息
+            console.log(`Generated MD5 Hash: ${md5Hash}`);  // 打印 MD5 哈希值以调试
         }
 
         // Set an interval to generate data every 20 seconds
