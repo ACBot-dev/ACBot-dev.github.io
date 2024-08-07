@@ -9,7 +9,7 @@
 <body>
     <h1>Verify MD5</h1>
     <p id="data"></p>
-    <p id="raw-data"></p> <!-- 新增用于显示未加密数据的行 -->
+    <p id="raw-data"></p> <!-- 确保这里有未加密的数据 -->
 
     <script>
         let lastGenerated = 0; // 记录上次生成时间的时间戳
@@ -20,26 +20,22 @@
             const timestamp = new Date().toISOString();
             const identifier = "ACBot";
             const garbage = Math.random().toString(36).substring(2);
-            const rawData = `${timestamp}:${identifier}:${garbage}`;
-            const md5Hash = CryptoJS.MD5(rawData).toString(CryptoJS.enc.Hex);
+            const data = `${timestamp}:${identifier}:${garbage}`;
+            const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
             
-            // Display the MD5 hash and raw data
+            // Display the MD5 hash only
             document.getElementById('data').innerText = md5Hash;
-            document.getElementById('raw-data').innerText = rawData; // 显示未加密数据
+
+            // Also display the raw data
+            document.getElementById('raw-data').innerText = data; // 更新未加密的数据
 
             // Update last generated time and store generated data
             lastGenerated = currentTime;
             window.generatedData = { timestamp, identifier, garbage }; // 确保存储在 window 对象上
 
-            console.log(`Generated Data: ${rawData}`);  // 添加调试信息
+            console.log(`Generated Data: ${data}`);  // 添加调试信息
             console.log(`Generated MD5 Hash: ${md5Hash}`);  // 打印 MD5 哈希值以调试
             console.log(`Generated Data Object:`, window.generatedData); // 打印 generatedData 对象
-        }
-
-        // Define a function to get generated data
-        function getGeneratedData() {
-            console.log('Getting generated data:', window.generatedData); // 调试信息
-            return window.generatedData;
         }
 
         // Set an interval to generate data every 20 seconds
