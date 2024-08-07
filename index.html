@@ -12,14 +12,15 @@
 
     <script>
         let lastGenerated = 0; // 记录上次生成时间的时间戳
-        let generatedData = {}; // 存储生成的数据
+        window.generatedData = {}; // 确保 generatedData 在 window 对象上
 
         function generateData() {
             const currentTime = Date.now();
             const timestamp = new Date().toISOString();
             const identifier = "ACBot";
             const garbage = Math.random().toString(36).substring(2);
-            const data = `${timestamp}:${identifier}:${garbage}`;
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const data = `${timestamp}:${identifier}:${garbage}:${timezone}`;
             const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
             
             // Display the MD5 hash only
@@ -27,15 +28,17 @@
 
             // Update last generated time and store generated data
             lastGenerated = currentTime;
-            generatedData = { timestamp, identifier, garbage };
+            window.generatedData = { timestamp, identifier, garbage, timezone }; // 确保存储在 window 对象上
 
             console.log(`Generated Data: ${data}`);  // 添加调试信息
             console.log(`Generated MD5 Hash: ${md5Hash}`);  // 打印 MD5 哈希值以调试
+            console.log(`Generated Data Object:`, window.generatedData); // 打印 generatedData 对象
         }
 
         // Define a function to get generated data
         function getGeneratedData() {
-            return generatedData;
+            console.log('Getting generated data:', window.generatedData); // 调试信息
+            return window.generatedData;
         }
 
         // Set an interval to generate data every 20 seconds
