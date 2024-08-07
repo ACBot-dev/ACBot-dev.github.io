@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <h1>Verify</h1>
+    <button onclick="generateMD5()">Get Key</button>
+    <p id="md5"></p>
+    <p id="data"></p>
+
+    <script>
+        function generateMD5() {
+            const timestamp = new Date().toISOString();
+            const identifier = "ACBot";
+            const garbage = Math.random().toString(36).substring(2);
+            const data = `${timestamp}:${identifier}:${garbage}`;
+            const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
+            document.getElementById('md5').innerText = md5Hash;
+            document.getElementById('data').innerText = `Data: ${data}`;
+        }
+    </script>
+</body>
+</html>
