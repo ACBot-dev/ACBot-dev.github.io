@@ -26,16 +26,18 @@
             const currentTime = Date.now();
             const timestamp = new Date().toISOString();
             const identifier = "ACBot";
-            const longString = generateLongRandomString(4096);
+            const garbage = generateLongRandomString(4096);
             const data = `${timestamp}_${identifier}_${garbage}`;
             const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
-            document.getElementById('data').innerText = md5Hash;
+  
 
+            document.getElementById('data').innerText = md5Hash;
             document.getElementById('raw-data').innerText = data;
 
             lastGenerated = currentTime;
-            window.generatedData = { timestamp, identifier, garbage }; 
+            window.generatedData = { timestamp, identifier, garbage };
         }
+
 
   
         setInterval(generateData, 20000);
