@@ -14,12 +14,19 @@
     <script>
         let lastGenerated = 0; 
         window.generatedData = {}; 
-
+        function generateLongRandomString(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
         function generateData() {
             const currentTime = Date.now();
             const timestamp = new Date().toISOString();
             const identifier = "ACBot";
-            const garbage = Math.random().toString(36).substring(2);
+            const longString = generateLongRandomString(4096);
             const data = `${timestamp}_${identifier}_${garbage}`;
             const md5Hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
             document.getElementById('data').innerText = md5Hash;
