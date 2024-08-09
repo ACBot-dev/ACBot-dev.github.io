@@ -8,12 +8,12 @@
 </head>
 <body>
     <h1>Encryption Example</h1>
+    <pre id="encryptedData">Generating data...</pre>
     <script>
         async function getClientIp() {
             try {
                 const response = await fetch('https://api.ipify.org?format=json');
                 const data = await response.json();
-                
                 return data.ip;
             } catch (error) {
                 console.error('Error fetching IP address:', error);
@@ -36,6 +36,9 @@
 
             // Encrypt data
             const encrypted = CryptoJS.AES.encrypt(data, key).toString();
+
+            // Display encrypted data and key
+            document.getElementById('encryptedData').textContent = `Encrypted Data: ${encrypted}\nKey: ${key}`;
 
             // Save encrypted data and key to a public JSON file or a static URL
             try {
