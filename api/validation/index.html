@@ -30,7 +30,12 @@
         }
 
         function encryptData(data) {
-            return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
+            const key = CryptoJS.enc.Utf8.parse(SECRET_KEY);  // 确保密钥是正确的格式
+            const encrypted = CryptoJS.AES.encrypt(data, key, {
+                mode: CryptoJS.mode.ECB,   // 模式需要匹配
+                padding: CryptoJS.pad.Pkcs7 // 填充方式
+            });
+            return encrypted.toString();
         }
 
         async function generateData() {
