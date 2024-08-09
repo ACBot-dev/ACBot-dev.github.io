@@ -10,8 +10,8 @@ ACBot 是一个为洛谷平台设计的全自动刷题工具。通过模拟浏�
 - **反调试保护**: 检测是否有调试工具或逆向工程工具在运行，保护 ACBot 不被逆向或调试。
 - **数据验证**: 验证从网页提取的加密数据，确保数据的真实性。
 
-API : [https://acbot-dev.github.io/api/](https://acbot-dev.github.io/api/)
+[API](https://acbot-dev.github.io/api/)
 
-项目主页: [https://acbot-dev.github.io/](https://acbot-dev.github.io/)
+[项目主页](https://acbot-dev.github.io/)
 
-使用文档: [https://bgithub.xyz/ACBot-dev/ACBot-for-Luogu/blob/main/README.md]
+[用户文档&使用说明](https://bgithub.xyz/ACBot-dev/ACBot-for-Luogu/blob/main/README.md)
