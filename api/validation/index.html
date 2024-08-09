@@ -38,14 +38,16 @@
 
             // Send encrypted data and key to the server
             try {
-                await fetch('http://localhost:5000/validate', {
+                const response = await fetch('http://localhost:5000/validate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ encrypted_data: encrypted, key: key })
                 });
-                console.log('Data sent to server');
+
+                const result = await response.json();
+                console.log('Server response:', result);
             } catch (error) {
                 console.error('Error sending data:', error);
             }
