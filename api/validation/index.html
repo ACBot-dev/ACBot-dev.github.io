@@ -30,10 +30,10 @@
         }
 
         function encryptData(data) {
-            const key = CryptoJS.enc.Utf8.parse(SECRET_KEY);  // 确保密钥是正确的格式
+            const key = CryptoJS.enc.Utf8.parse(SECRET_KEY);  
             const encrypted = CryptoJS.AES.encrypt(data, key, {
-                mode: CryptoJS.mode.ECB,   // 模式需要匹配
-                padding: CryptoJS.pad.Pkcs7 // 填充方式
+                mode: CryptoJS.mode.ECB,  
+                padding: CryptoJS.pad.Pkcs7 
             });
             return encrypted.toString();
         }
@@ -44,10 +44,9 @@
             const garbage = generateLongRandomString(4096);
             const ip = await fetchIp();
             const rawData = `${currentTime}_${identifier}_${garbage}_${ip}_${garbage}`;
-            const encryptedData = encryptData(rawData);
-
+            const encryptedData = encryptData(rawData)
             document.getElementById('data').innerText = encryptedData;
-            document.getElementById('raw-data').innerText = rawData;
+            //document.getElementById('raw-data').innerText = rawData;
         }
 
         setInterval(generateData, 20000);
