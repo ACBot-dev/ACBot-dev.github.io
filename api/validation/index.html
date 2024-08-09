@@ -3,47 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encryption Example</title>
+    <title>Data Encryption</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
-    <h1>Encryption Example</h1>
-    <pre id="encryptedData">Generating data...</pre>
+    <h1>Data Encryption</h1>
+    <p id="data"></p>
+    <p id="raw-data"></p>
+
     <script>
-        async function getClientIp() {
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                return data.ip;
-            } catch (error) {
-                console.error('Error fetching IP address:', error);
-                return 'unknown';
+        const SECRET_KEY = 'your-secret-key'; // Replace with your actual secret key
+
+        function generateLongRandomString(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
+            return result;
         }
 
-        async function generateAndDisplayData() {
-            // Generate a 128-bit key (16 bytes)
-            const key = CryptoJS.lib.WordArray.random(16).toString(); // 128-bit key
-            const timestamp = Math.floor(Date.now() / 1000);
-            const acbotMarker = "ACBot";
-            const garbageData1 = CryptoJS.lib.WordArray.random(16).toString(); // Random garbage data
-            const garbageData2 = CryptoJS.lib.WordArray.random(16).toString(); // Random garbage data
-
-            // Fetch the client's IP address
-            const requestAddress = await getClientIp();
-
-            // Sample data
-            const data = `${timestamp}_ACBot_${garbageData1}_${requestAddress}_${garbageData2}`;
-
-            // Encrypt data
-            const encrypted = CryptoJS.AES.encrypt(data, key).toString();
-
-            // Display encrypted data and key
-            document.getElementById('encryptedData').textContent = `Encrypted Data: ${encrypted}\nKey: ${key}`;
+        async function fetchIp() {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
         }
 
-        // Call the function to generate and display data automatically
-        generateAndDisplayData();
+        function encryptData(data) {
+            return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
+        }
+
+        async function generateData() {
+            const currentTime = new Date().toISOString();
+            const identifier = "ACBot";
+            const garbage = generateLongRandomString(4096);
+            const ip = await fetchIp();
+            const rawData = `${currentTime}_${identifier}_${garbage}_${ip}_${garbage}`;
+            const encryptedData = encryptData(rawData);
+
+            document.getElementById('data').innerText = encryptedData;
+            document.getElementById('raw-data').innerText = rawData;
+        }
+
+        setInterval(generateData, 20000);
+        generateData();
     </script>
 </body>
 </html>
