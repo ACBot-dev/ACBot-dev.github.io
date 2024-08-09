@@ -25,6 +25,7 @@
             const key = CryptoJS.lib.WordArray.random(16).toString(); // 128-bit key
             const timestamp = Math.floor(Date.now() / 1000);
             const acbotMarker = "ACBot";
+            
             const garbageData1 = CryptoJS.lib.WordArray.random(16).toString(); // Random garbage data
             const garbageData2 = CryptoJS.lib.WordArray.random(16).toString(); // Random garbage data
 
