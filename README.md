@@ -14,4 +14,4 @@ ACBot 是一个为洛谷平台设计的全自动刷题工具。通过模拟浏�
 
 [项目主页](https://acbot-dev.github.io/)
 
-[用户文档&使用说明](https://bgithub.xyz/ACBot-dev/ACBot-for-Luogu/blob/main/README.md)
+[用户文档&使用说明](https://github.com/ACBot-dev/ACBot-for-Luogu/blob/main/README.md)
