@@ -8,7 +8,6 @@
 </head>
 <body>
     <h1>Encryption Example</h1>
-    <button onclick="generateAndEncrypt()">Generate Key and Encrypt Data</button>
     <pre id="encryptedData"></pre>
     <script>
         async function getClientIp() {
@@ -41,6 +40,9 @@
             // Display encrypted data and key
             document.getElementById('encryptedData').textContent = `Encrypted Data: ${encrypted}\nKey: ${key}`;
         }
+
+        // Call the function to generate and encrypt data automatically
+        generateAndEncrypt();
     </script>
 </body>
 </html>
