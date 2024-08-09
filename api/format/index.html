@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACBot Code  Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        pre {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>ACBot Code Formatter</h1>
+    <textarea id="cppCode" placeholder="Paste your code here..."></textarea>
+    <button onclick="processCode()">Process Code</button>
+    <button onclick="copyToClipboard()">Copy to Clipboard</button>
+    <h2>Processed Code</h2>
+    <pre id="result"></pre>
+
+    <script>
+        function processCode() {
+            const code = document.getElementById('cppCode').value;
+
+            // Regex to remove all #include directives and replace with a single #include <bits/stdc++.h>
+            const includeRegex = /#include\s*(<[^>]*>|"[^"]*"|[^<>\s]*)/g;
+            const cleanedCode = code.replace(includeRegex, '');
+            const finalCode = `#include <bits/stdc++.h>\n\n${cleanedCode}`;
+
+
+            // Regex to match the `main` function and everything before it
+            const beforeMainRegex = /([\s\S]*?)(int\s+main\s*\([^)]*\)\s*\{([\s\S]*?)\}\s*)$/;
+            const match = finalCode.match(beforeMainRegex);
+
+            if (match) {
+                // Extract everything before main function and main function code
+                const beforeMain = match[1];
+                let mainCode = match[2];
+
+                // Remove incorrect return statements
+                mainCode = mainCode.replace(/return\s+[^;]*;/g, '');
+
+                // Ensure the main function ends with `return 0;`
+                if (!mainCode.includes('return 0;') && mainCode.includes('}')) {
+                    mainCode = mainCode.replace(/\}\s*$/, 'return 0;\n}');
+                }
+
+                // Combine the before main code with the main function code
+                const result = `${beforeMain}${mainCode}`;
+
+                document.getElementById('result').textContent = result;
+            } else {
+                document.getElementById('result').textContent = 'No main function found.';
+            }
+        }
+
+        function copyToClipboard() {
+            const result = document.getElementById('result').textContent;
+
+            // Create a temporary textarea element to hold the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = result;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+        }
+    </script>
+</body>
+</html>
