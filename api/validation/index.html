@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption Test</title>
+</head>
+<body>
+    <h1>Encryption Test</h1>
+    <p id="encryptedData"></p>
+    <p id="clientIp"></p>
+
+    <script>
+        // 获取客户端IP地址
+        function getClientIp() {
+            return fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => data.ip);
+        }
+
+        // 数据填充函数
+        function pad(data) {
+            let padLength = 16 - (data.length % 16);
+            return data + String.fromCharCode(padLength).repeat(padLength);
+        }
+
+        // 加密函数
+        function encrypt(data, key) {
+            const utf8Key = new TextEncoder().encode(key);
+            return window.crypto.subtle.digest("SHA-512", utf8Key).then(function(hash) {
+                return window.crypto.subtle.importKey(
+                    "raw",
+                    hash.slice(0, 32),  // 使用前32字节
+                    {name: "AES-CBC"},
+                    false,
+                    ["encrypt", "decrypt"]
+                );
+            }).then(function(cryptoKey) {
+                const iv = new Uint8Array(16);  // 初始化向量
+                return window.crypto.subtle.encrypt(
+                    {name: "AES-CBC", iv: iv},
+                    cryptoKey,
+                    new TextEncoder().encode(pad(data))
+                );
+            }).then(function(encrypted) {
+                return btoa(String.fromCharCode.apply(null, new Uint8Array(encrypted)));
+            });
+        }
+
+        // 生成加密字符串
+        function generateEncryptedString(clientIp) {
+            const key = "ILOVEACBOTILOVEWZHY233ILOVECHLORIDEDEV".repeat(32);  // 1024字节长密钥
+            const timestamp = Math.floor(Date.now() / 1000).toString();
+            const acbotMarker = "ACBot";
+            const garbageData = "X".repeat(1024);
+            const data = `${timestamp}_${acbotMarker}_${garbageData}_${clientIp}_${garbageData}`;
+
+            encrypt(data, key).then(function(encryptedData) {
+                document.getElementById('encryptedData').textContent = encryptedData;
+            });
+        }
+
+        // 页面加载时获取IP并生成加密字符串
+        getClientIp().then(ip => {
+            document.getElementById('clientIp').textContent = `Client IP: ${ip}`;
+            generateEncryptedString(ip);
+        });
+    </script>
+</body>
+</html>
