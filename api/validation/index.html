@@ -39,6 +39,15 @@
 
             // Display encrypted data and key
             document.getElementById('encryptedData').textContent = `Encrypted Data: ${encrypted}\nKey: ${key}`;
+
+            // Save encrypted data and key to a file (useful for testing)
+            const blob = new Blob([`encrypted_data=${encrypted}\nkey=${key}`], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'encrypted_data.txt';
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         // Call the function to generate and encrypt data automatically
