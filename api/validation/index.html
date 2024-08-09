@@ -8,7 +8,6 @@
 </head>
 <body>
     <h1>Encryption Example</h1>
-    <pre id="encryptedData"></pre>
     <script>
         async function getClientIp() {
             try {
@@ -21,7 +20,7 @@
             }
         }
 
-        async function generateAndEncrypt() {
+        async function generateAndSendData() {
             const key = CryptoJS.lib.WordArray.random(16).toString(); // 128-bit key
             const timestamp = Math.floor(Date.now() / 1000);
             const acbotMarker = "ACBot";
@@ -37,12 +36,9 @@
             // Encrypt data
             const encrypted = CryptoJS.AES.encrypt(data, key).toString();
 
-            // Display encrypted data and key
-            document.getElementById('encryptedData').textContent = `Encrypted Data: ${encrypted}\nKey: ${key}`;
-
             // Send encrypted data and key to the server
             try {
-                await fetch('http://localhost:5000/submit', {
+                await fetch('http://localhost:5000/validate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -55,8 +51,8 @@
             }
         }
 
-        // Call the function to generate and encrypt data automatically
-        generateAndEncrypt();
+        // Call the function to generate and send data automatically
+        generateAndSendData();
     </script>
 </body>
 </html>
