@@ -8,8 +8,8 @@
 </head>
 <body>
     <h1>Encryption Example</h1>
-    <button onclick="generateAndEncrypt()">Generate Key and Encrypt Data</button>
-    <pre id="encryptedData"></pre>
+    <button onclick="generateAndSend()">Generate Key and Encrypt Data</button>
+    <pre id="response"></pre>
     <script>
         async function getClientIp() {
             try {
@@ -22,7 +22,7 @@
             }
         }
 
-        async function generateAndEncrypt() {
+        async function generateAndSend() {
             const key = CryptoJS.lib.WordArray.random(16).toString(); // 128-bit key
             const timestamp = Math.floor(Date.now() / 1000);
             const acbotMarker = "ACBot";
@@ -38,8 +38,20 @@
             // Encrypt data
             const encrypted = CryptoJS.AES.encrypt(data, key).toString();
 
-            // Display encrypted data and key
-            document.getElementById('encryptedData').textContent = `Encrypted Data: ${encrypted}\nKey: ${key}`;
+            // Send data to the server
+            const response = await fetch('http://localhost:5000/api/validate/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    encrypted_data: encrypted,
+                    key: key
+                })
+            });
+
+            const result = await response.json();
+            document.getElementById('response').textContent = `Server Response: ${JSON.stringify(result)}`;
         }
     </script>
 </body>
