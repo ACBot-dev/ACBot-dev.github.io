@@ -20,7 +20,7 @@
             }
         }
 
-        async function generateAndSendData() {
+        async function generateAndUploadData() {
             const key = CryptoJS.lib.WordArray.random(16).toString(); // 128-bit key
             const timestamp = Math.floor(Date.now() / 1000);
             const acbotMarker = "ACBot";
@@ -36,25 +36,24 @@
             // Encrypt data
             const encrypted = CryptoJS.AES.encrypt(data, key).toString();
 
-            // Send encrypted data and key to the server
+            // Save encrypted data and key to a public JSON file or a static URL
             try {
-                const response = await fetch('http://localhost:5000/validate', {
+                const response = await fetch('https://acbot-dev.github.io/api/validation/data.json', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ encrypted_data: encrypted, key: key })
                 });
-
                 const result = await response.json();
-                console.log('Server response:', result);
+                console.log('Data uploaded:', result);
             } catch (error) {
-                console.error('Error sending data:', error);
+                console.error('Error uploading data:', error);
             }
         }
 
-        // Call the function to generate and send data automatically
-        generateAndSendData();
+        // Call the function to generate and upload data automatically
+        generateAndUploadData();
     </script>
 </body>
 </html>
