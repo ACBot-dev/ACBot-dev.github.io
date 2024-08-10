@@ -43,7 +43,7 @@
             const garbage = generateLongRandomString(4096);
             const ip = await fetchIp();
             const temp = `${currentTime}_${identifier}_${garbage}_${ip}_${garbage}`;
-            const encryptedData = encryptData(rawData)
+            const encryptedData = encryptData(temp)
             document.getElementById('data').innerText = encryptedData;
         }
 
